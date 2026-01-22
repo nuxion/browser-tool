@@ -213,6 +213,26 @@ npm run build
 npm run start -- <command>
 ```
 
+## AI Assistant Integration
+
+This tool includes a skill file for AI coding assistants (Claude Code, OpenCode, etc.) that enables them to use `browser-tool` for web scraping tasks.
+
+**Skill file location:** `examples/skill-browser-tool.md`
+
+To use with Claude Code, copy the skill file to your project:
+
+```bash
+mkdir -p .claude/skills
+cp examples/skill-browser-tool.md .claude/skills/
+```
+
+The skill teaches AI assistants how to:
+- Launch browsers and extract content
+- Connect to authenticated sessions
+- Use selectors effectively
+- Handle heavy sites with timeouts
+- Convert content to Markdown
+
 ## Requirements
 
 - Node.js >= 18.0.0

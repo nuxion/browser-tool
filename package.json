@@ -1,18 +1,50 @@
 {
   "name": "browser-tool",
   "version": "0.1.0",
-  "description": "CLI tool for browser automation and content extraction",
+  "description": "CLI tool for browser automation and content extraction with Markdown support",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "browser-tool": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
-    "link": "npm run build && npm link"
+    "link": "npm run build && npm link",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "browser",
+    "scraper",
+    "web-scraping",
+    "playwright",
+    "cli",
+    "markdown",
+    "html-to-markdown",
+    "automation",
+    "cdp",
+    "chrome-devtools-protocol"
+  ],
+  "author": "Xavier Petit <nuxion@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nuxion/browser-tool.git"
+  },
+  "homepage": "https://github.com/nuxion/browser-tool#readme",
+  "bugs": {
+    "url": "https://github.com/nuxion/browser-tool/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "chalk": "^5.3.0",

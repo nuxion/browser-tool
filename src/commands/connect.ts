@@ -12,8 +12,9 @@ export const connectCommand = new Command('connect')
   .option('--xpath', 'Treat selector as XPath instead of CSS')
   .option('-a, --attribute <name>', 'Extract attribute value instead of text')
   .option('--html', 'Extract HTML content instead of text')
+  .option('--markdown', 'Convert extracted HTML to Markdown')
   .option('-m, --multiple', 'Extract all matching elements', false)
-  .option('-o, --output <format>', 'Output format: json, text, lines', 'text')
+  .option('-o, --output <format>', 'Output format: json, text, lines, markdown', 'text')
   .option('--no-wait', 'Do not wait for selector to appear')
   .option('--timeout <ms>', 'Timeout for waiting (default: 10000)', '10000')
   .action(async (url, options) => {
@@ -30,10 +31,11 @@ export const connectCommand = new Command('connect')
       if (options.selector) {
         const extractSpinner = ora('Extracting content...').start();
 
+        const useMarkdown = options.markdown || options.output === 'markdown';
         const extractionOptions: ExtractionOptions = {
           selector: options.selector,
           selectorType: options.xpath ? 'xpath' : 'css',
-          extractionType: options.html ? 'html' : options.attribute ? 'attribute' : 'text',
+          extractionType: useMarkdown || options.html ? 'html' : options.attribute ? 'attribute' : 'text',
           attribute: options.attribute,
           multiple: options.multiple,
           waitFor: options.wait,
@@ -43,8 +45,9 @@ export const connectCommand = new Command('connect')
         const result = await extractFromPage(session.page, extractionOptions);
         extractSpinner.stop();
 
+        const outputFormat = useMarkdown ? 'markdown' : options.output;
         const output = formatOutput(result, {
-          format: options.output as OutputFormat,
+          format: outputFormat as OutputFormat,
         });
 
         console.log(output);

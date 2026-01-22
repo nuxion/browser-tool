@@ -1,11 +1,25 @@
 import chalk from 'chalk';
+import TurndownService from 'turndown';
 import type { ExtractionResult } from './extractor.js';
 
-export type OutputFormat = 'json' | 'text' | 'lines';
+export type OutputFormat = 'json' | 'text' | 'lines' | 'markdown';
 
 export interface FormatOptions {
   format: OutputFormat;
   pretty?: boolean;
+}
+
+const turndown = new TurndownService({
+  headingStyle: 'atx',
+  codeBlockStyle: 'fenced',
+  bulletListMarker: '-',
+});
+
+/**
+ * Convert HTML string to Markdown
+ */
+export function htmlToMarkdown(html: string): string {
+  return turndown.turndown(html);
 }
 
 /**
@@ -33,6 +47,12 @@ export function formatOutput(result: ExtractionResult, options: FormatOptions): 
         return result.data.join('\n');
       }
       return result.data;
+
+    case 'markdown':
+      if (Array.isArray(result.data)) {
+        return result.data.map(html => htmlToMarkdown(html)).join('\n\n---\n\n');
+      }
+      return htmlToMarkdown(result.data);
 
     case 'text':
     default:

@@ -9,22 +9,25 @@ export const extractCommand = new Command('extract')
   .requiredOption('-s, --selector <selector>', 'CSS selector to extract')
   .option('-a, --attribute <name>', 'Extract attribute value instead of text')
   .option('--html', 'Extract HTML content instead of text')
+  .option('--markdown', 'Convert extracted HTML to Markdown')
   .option('-m, --multiple', 'Extract all matching elements', false)
-  .option('-o, --output <format>', 'Output format: json, text, lines', 'text')
+  .option('-o, --output <format>', 'Output format: json, text, lines, markdown', 'text')
   .action(async (file, options) => {
     try {
       const html = readFileSync(file, 'utf-8');
 
+      const useMarkdown = options.markdown || options.output === 'markdown';
       const result = extractFromHtml(html, {
         selector: options.selector,
         selectorType: 'css',
-        extractionType: options.html ? 'html' : options.attribute ? 'attribute' : 'text',
+        extractionType: useMarkdown || options.html ? 'html' : options.attribute ? 'attribute' : 'text',
         attribute: options.attribute,
         multiple: options.multiple,
       });
 
+      const outputFormat = useMarkdown ? 'markdown' : options.output;
       const output = formatOutput(result, {
-        format: options.output as OutputFormat,
+        format: outputFormat as OutputFormat,
       });
 
       console.log(output);

@@ -45,8 +45,9 @@ browser-tool launch <url> [options]
 | `--xpath` | Treat selector as XPath | `false` |
 | `-a, --attribute <name>` | Extract attribute instead of text | - |
 | `--html` | Extract HTML instead of text | `false` |
+| `--markdown` | Convert extracted HTML to Markdown | `false` |
 | `-m, --multiple` | Extract all matching elements | `false` |
-| `-o, --output <format>` | Output format: `json`, `text`, `lines` | `text` |
+| `-o, --output <format>` | Output format: `json`, `text`, `lines`, `markdown` | `text` |
 | `--timeout <ms>` | Wait timeout in milliseconds | `10000` |
 
 **Examples:**
@@ -63,6 +64,9 @@ browser-tool launch https://example.com --no-headless -s "h1"
 
 # Custom viewport for responsive testing
 browser-tool launch https://example.com --viewport 375x812 -s ".mobile-menu"
+
+# Extract article content as Markdown
+browser-tool launch https://example.com -s "article" --markdown
 ```
 
 ### `connect` - Connect to Existing Browser
@@ -127,6 +131,7 @@ browser-tool extract page.html -s "img" -a src -m -o lines
 | `text` | Plain text, multiple results separated by blank lines |
 | `lines` | One result per line |
 | `json` | JSON object with `data` and `count` fields |
+| `markdown` | HTML converted to Markdown (uses Turndown) |
 
 **JSON output example:**
 
@@ -135,6 +140,22 @@ browser-tool extract page.html -s "img" -a src -m -o lines
   "data": ["First heading", "Second heading"],
   "count": 2
 }
+```
+
+**Markdown output example:**
+
+```bash
+browser-tool launch https://example.com -s "article" --markdown
+```
+
+Output:
+```markdown
+# Article Title
+
+Some **bold** text and a [link](https://example.com).
+
+- List item 1
+- List item 2
 ```
 
 ## Selector Examples

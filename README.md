@@ -4,6 +4,14 @@ A CLI tool for browser automation and web content extraction. Connect to existin
 
 ## Installation
 
+### Quick Install (recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/nuxion/browser-tool/main/install.sh | bash
+```
+
+### Manual Install
+
 ```bash
 # Install globally from npm
 npm install -g @nuxion/browser-tool
@@ -12,7 +20,7 @@ npm install -g @nuxion/browser-tool
 npx playwright install chromium
 ```
 
-Or run directly without installing:
+### Run without installing
 
 ```bash
 npx @nuxion/browser-tool launch https://example.com -s "h1"

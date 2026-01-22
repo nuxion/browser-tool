@@ -5,21 +5,33 @@ A CLI tool for browser automation and web content extraction. Connect to existin
 ## Installation
 
 ```bash
-# Install dependencies
-npm install
+# Install globally from npm
+npm install -g @nuxion/browser-tool
 
 # Install Playwright browsers
 npx playwright install chromium
+```
+
+Or run directly without installing:
+
+```bash
+npx @nuxion/browser-tool launch https://example.com -s "h1"
 ```
 
 ## Quick Start
 
 ```bash
 # Launch a browser and extract all headlines
-npm run dev -- launch https://news.ycombinator.com -s ".titleline > a" -m
+browser-tool launch https://news.ycombinator.com -s ".titleline > a" -m
 
 # Extract as JSON
-npm run dev -- launch https://example.com -s "h1" -o json
+browser-tool launch https://example.com -s "h1" -o json
+
+# Extract article content as Markdown
+browser-tool launch https://example.com -s "article" --markdown
+
+# Fast extraction from heavy sites
+browser-tool launch https://news-site.com --wait-until commit -s "main" --markdown
 ```
 
 ## Commands
@@ -199,7 +211,16 @@ For heavy sites with many ads/trackers, use `commit` or `domcontentloaded` to av
 
 ## Development
 
+For local development or contributing:
+
 ```bash
+# Clone the repository
+git clone https://github.com/nuxion/browser-tool.git
+cd browser-tool
+
+# Install dependencies
+npm install
+
 # Run in development mode
 npm run dev -- <command>
 
@@ -209,8 +230,8 @@ npm run typecheck
 # Build for production
 npm run build
 
-# Run built version
-npm run start -- <command>
+# Link globally for local testing
+npm run link
 ```
 
 ## AI Assistant Integration

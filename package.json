@@ -1,6 +1,6 @@
 {
-  "name": "browser-tool",
-  "version": "0.1.0",
+  "name": "@nuxion/browser-tool",
+  "version": "1.4.0",
   "description": "CLI tool for browser automation and content extraction with Markdown support",
   "type": "module",
   "main": "dist/index.js",

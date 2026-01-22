@@ -242,6 +242,34 @@ npm run build
 npm run link
 ```
 
+## Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run with coverage report
+npm run test:coverage
+
+# Run unit tests only (fast, no browser)
+npm run test:unit
+
+# Run integration tests (requires browser)
+npm run test:integration
+```
+
+**Test structure:**
+
+| File | Description |
+|------|-------------|
+| `tests/output.test.ts` | Markdown conversion, output formatting |
+| `tests/extractor.test.ts` | HTML parsing with Cheerio |
+| `tests/browser.test.ts` | Browser launch, navigation |
+| `tests/integration.test.ts` | Full extraction workflows |
+
 ## AI Assistant Integration
 
 This tool includes a skill file for AI coding assistants (Claude Code, OpenCode, etc.) that enables them to use `browser-tool` for web scraping tasks.

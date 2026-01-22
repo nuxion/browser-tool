@@ -86,12 +86,17 @@ export async function launchBrowser(options: LaunchOptions = {}): Promise<Browse
 /**
  * Navigate to a URL and wait for the page to be ready
  */
+export type WaitUntilOption = 'load' | 'domcontentloaded' | 'networkidle' | 'commit';
+
+/**
+ * Navigate to a URL and wait for the page to be ready
+ */
 export async function navigateTo(
   page: Page,
   url: string,
-  options: { waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' } = {}
+  options: { waitUntil?: WaitUntilOption } = {}
 ): Promise<void> {
   await page.goto(url, {
-    waitUntil: options.waitUntil ?? 'networkidle',
+    waitUntil: options.waitUntil ?? 'domcontentloaded',
   });
 }

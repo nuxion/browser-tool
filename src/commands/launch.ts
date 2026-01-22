@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import ora from 'ora';
-import { launchBrowser, navigateTo } from '../lib/browser.js';
+import { launchBrowser, navigateTo, type WaitUntilOption } from '../lib/browser.js';
 import { extractFromPage, type ExtractionOptions } from '../lib/extractor.js';
 import { formatOutput, success, error, info, type OutputFormat } from '../lib/output.js';
 
@@ -20,6 +20,7 @@ export const launchCommand = new Command('launch')
   .option('-m, --multiple', 'Extract all matching elements', false)
   .option('-o, --output <format>', 'Output format: json, text, lines, markdown', 'text')
   .option('--no-wait', 'Do not wait for selector to appear')
+  .option('--wait-until <event>', 'Wait until: domcontentloaded, load, networkidle, commit', 'domcontentloaded')
   .option('--timeout <ms>', 'Timeout for waiting (default: 10000)', '10000')
   .action(async (url, options) => {
     const spinner = ora('Launching browser...').start();
@@ -47,7 +48,9 @@ export const launchCommand = new Command('launch')
       spinner.succeed('Browser launched');
 
       const navSpinner = ora(`Navigating to ${url}...`).start();
-      await navigateTo(session.page, url);
+      await navigateTo(session.page, url, {
+        waitUntil: options.waitUntil as WaitUntilOption,
+      });
       navSpinner.succeed('Page loaded');
 
       if (options.selector) {

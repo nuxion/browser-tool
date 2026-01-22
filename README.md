@@ -48,6 +48,7 @@ browser-tool launch <url> [options]
 | `--markdown` | Convert extracted HTML to Markdown | `false` |
 | `-m, --multiple` | Extract all matching elements | `false` |
 | `-o, --output <format>` | Output format: `json`, `text`, `lines`, `markdown` | `text` |
+| `--wait-until <event>` | Navigation wait: `commit`, `domcontentloaded`, `load`, `networkidle` | `domcontentloaded` |
 | `--timeout <ms>` | Wait timeout in milliseconds | `10000` |
 
 **Examples:**
@@ -67,6 +68,9 @@ browser-tool launch https://example.com --viewport 375x812 -s ".mobile-menu"
 
 # Extract article content as Markdown
 browser-tool launch https://example.com -s "article" --markdown
+
+# Fast extraction from heavy sites (use commit for speed)
+browser-tool launch https://news-site.com --wait-until commit -s "body" --markdown
 ```
 
 ### `connect` - Connect to Existing Browser
@@ -157,6 +161,19 @@ Some **bold** text and a [link](https://example.com).
 - List item 1
 - List item 2
 ```
+
+## Navigation Wait Options
+
+The `--wait-until` option controls when navigation is considered complete:
+
+| Value | Description | Use case |
+|-------|-------------|----------|
+| `commit` | Response received | Fastest, for simple pages |
+| `domcontentloaded` | DOM ready (default) | Most sites |
+| `load` | All resources loaded | When images/assets needed |
+| `networkidle` | No network for 500ms | SPAs, dynamic content |
+
+For heavy sites with many ads/trackers, use `commit` or `domcontentloaded` to avoid timeouts.
 
 ## Selector Examples
 

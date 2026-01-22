@@ -15,6 +15,23 @@ const turndown = new TurndownService({
   bulletListMarker: '-',
 });
 
+// Remove script, style, and other non-content elements
+turndown.remove(['script', 'style', 'noscript', 'iframe', 'svg', 'canvas', 'template']);
+
+// Also remove elements that typically contain noise (hidden elements, ads, etc.)
+turndown.addRule('removeHidden', {
+  filter: (node) => {
+    if (node.nodeType !== 1) return false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const el = node as any;
+    const style = el.getAttribute?.('style') || '';
+    const hidden = el.hasAttribute?.('hidden');
+    const ariaHidden = el.getAttribute?.('aria-hidden') === 'true';
+    return hidden || ariaHidden || style.includes('display:none') || style.includes('display: none');
+  },
+  replacement: () => '',
+});
+
 /**
  * Convert HTML string to Markdown
  */
